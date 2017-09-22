@@ -2,6 +2,7 @@ package edu.sjsu.cmpe282.service.Impl;
 
 import edu.sjsu.cmpe282.dao.EmployeeRepository;
 import edu.sjsu.cmpe282.domain.Employee;
+import edu.sjsu.cmpe282.exception.ResourceConflictException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
 import edu.sjsu.cmpe282.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository repo;
 
     @Override
-    public Employee create(Employee employee) {
-        return null;
+    public Employee create(Employee newEmployee) {
+        Integer id = newEmployee.getId();
+        Employee e = repo.findById(id);
+
+        if (e != null) {
+            throw new ResourceConflictException(
+                    String.format(MSG_TEMPLATE_IS_EXIST, id));
+        }
+
+        repo.save(newEmployee);
+
+        return newEmployee;
     }
 
     @Override
@@ -33,7 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee e = findById(id);
 
-        if(e != null) {
+        if (e != null) {
             repo.delete(e);
         }
 
