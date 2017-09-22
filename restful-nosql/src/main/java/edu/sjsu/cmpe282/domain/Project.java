@@ -1,15 +1,26 @@
-package edu.sjsu.cmpe282.restfulnosql.model;
+package edu.sjsu.cmpe282.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Objects;
+
+/**
+ * Project doucment in MongoDB
+ */
 
 @Document(collection = "project")
 public class Project {
 
+    // This is dummy mapping to make mango can work
     @Id
-    private Integer id;
+    private String dummyId;
+
+    @Field("id")
+    @Indexed(name = "id", unique = true)
+    private int id;
 
     private String name;
     private float budget;
@@ -51,11 +62,12 @@ public class Project {
         Project project = (Project) o;
         return id == project.id &&
                 Float.compare(project.budget, budget) == 0 &&
+                Objects.equals(dummyId, project.dummyId) &&
                 Objects.equals(name, project.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, budget);
+        return Objects.hash(dummyId, id, name, budget);
     }
 }

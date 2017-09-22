@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe282.restfulnosql;
+package edu.sjsu.cmpe282;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

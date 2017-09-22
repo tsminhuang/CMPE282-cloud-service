@@ -1,4 +1,4 @@
-package edu.sjsu.cmpe282.restfulnosql.model;
+package edu.sjsu.cmpe282.domain;
 
 
 import org.springframework.data.annotation.Id;
@@ -8,10 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Objects;
 
-// TODO:
-// 1. Implement other function
-//
-// 2. Implement Converter
+/**
+ * Employee document object in MongoDB
+ */
 
 @Document(collection = "employee")
 public class Employee {
@@ -31,6 +30,14 @@ public class Employee {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -55,12 +62,13 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return id == employee.id &&
+                Objects.equals(dummyId, employee.dummyId) &&
                 Objects.equals(firstName, employee.firstName) &&
                 Objects.equals(lastName, employee.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
+        return Objects.hash(dummyId, id, firstName, lastName);
     }
 }

@@ -1,8 +1,11 @@
-package edu.sjsu.cmpe282.restfulnosql.rest;
+package edu.sjsu.cmpe282.web.rest;
 
-import edu.sjsu.cmpe282.restfulnosql.model.Employee;
-import edu.sjsu.cmpe282.restfulnosql.repository.EmployeeRepository;
+import edu.sjsu.cmpe282.dao.EmployeeRepository;
+import edu.sjsu.cmpe282.domain.Employee;
+import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
+import edu.sjsu.cmpe282.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +20,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository repo;
 
+    @Autowired
+    private EmployeeService service;
+
     @PostConstruct
     public void buildData() {
         repo.deleteAll();
@@ -26,7 +32,15 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Employee> getAll() {
-        return repo.findAll();
+    public List<Employee> getAll() {
+
+        return service.findAll();
     }
+
+    // TODO: implement GET id request
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Employee findById(@PathVariable("id") int id) {
+        return service.findById(id);
+    }
+
 }

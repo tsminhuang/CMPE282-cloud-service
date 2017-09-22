@@ -1,12 +1,12 @@
-package edu.sjsu.cmpe282.restfulnosql;
+package edu.sjsu.cmpe282;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestfulNosqlApplication {
+public class RestServNoSQLApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RestfulNosqlApplication.class, args);
+        SpringApplication.run(RestServNoSQLApplication.class, args);
     }
 }
