@@ -15,6 +15,11 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+    public static String MSG_NO_ANY_RECORD = "Employee records are empty";
+    public static String MSG_TEMPLATE_NOT_EXIST = "Employee with id:{%d} did not exist";
+    public static String MSG_TEMPLATE_IS_EXIST = "Employee with id:{%d} already existed";
+
+
     @Autowired
     private EmployeeRepository repo;
 
@@ -24,8 +29,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee delete(Integer integer) {
-        return null;
+    public Employee delete(Integer id) {
+
+        Employee e = findById(id);
+
+        if(e != null) {
+            repo.delete(e);
+        }
+
+        return e;
     }
 
     @Override
@@ -41,8 +53,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findById(Integer integer) {
-        return null;
+    public Employee findById(Integer id) {
+        Employee e = repo.findById(id);
+
+        if (e == null) {
+            throw new ResourceNotFoundException(
+                    String.format(MSG_TEMPLATE_NOT_EXIST, id));
+        }
+
+        return e;
     }
 
     @Override

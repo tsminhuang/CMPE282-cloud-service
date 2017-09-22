@@ -2,9 +2,9 @@ package edu.sjsu.cmpe282.web.rest;
 
 import edu.sjsu.cmpe282.dao.EmployeeRepository;
 import edu.sjsu.cmpe282.domain.Employee;
-import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
 import edu.sjsu.cmpe282.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,10 +37,14 @@ public class EmployeeController {
         return service.findAll();
     }
 
-    // TODO: implement GET id request
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Employee findById(@PathVariable("id") int id) {
         return service.findById(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Employee delete(@PathVariable("id") int id) {
+        return service.delete(id);
     }
 
 }

@@ -1,10 +1,10 @@
 package edu.sjsu.cmpe282.web.rest;
 
 import edu.sjsu.cmpe282.dao.ProjectRepository;
-import edu.sjsu.cmpe282.domain.Employee;
 import edu.sjsu.cmpe282.domain.Project;
 import edu.sjsu.cmpe282.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,9 +32,12 @@ public class ProjectController {
 
     @RequestMapping(method = RequestMethod.GET)
     List<Project> getAll() {
-
         return service.findAll();
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Project findById(@PathVariable("id") int id) {
+        return service.findById(id);
+    }
 
 }
