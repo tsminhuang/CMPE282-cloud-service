@@ -13,9 +13,9 @@ import java.util.List;
 /**
  * EmployeeServiceImpl: implementation all CRUD business logic for Employee
  */
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-
     public static String MSG_NO_ANY_RECORD = "Employee records are empty";
     public static String MSG_TEMPLATE_NOT_EXIST = "Employee with id:{%d} did not exist";
     public static String MSG_TEMPLATE_IS_EXIST = "Employee with id:{%d} already existed";
@@ -25,8 +25,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository repo;
 
     @Override
-    public Employee create(Employee newEmployee) {
-        Integer id = newEmployee.getId();
+    public Employee create(Employee ctxCreated) {
+        Integer id = ctxCreated.getId();
         Employee e = repo.findById(id);
 
         if (e != null) {
@@ -34,14 +34,13 @@ public class EmployeeServiceImpl implements EmployeeService {
                     String.format(MSG_TEMPLATE_IS_EXIST, id));
         }
 
-        repo.save(newEmployee);
+        repo.save(ctxCreated);
 
-        return newEmployee;
+        return ctxCreated;
     }
 
     @Override
     public Employee delete(Integer id) {
-
         Employee e = findById(id);
 
         if (e != null) {
@@ -53,11 +52,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<Employee> findAll() {
-
         List<Employee> e = repo.findAll();
 
         if (e.size() == 0) {
-            throw new ResourceNotFoundException("No Employee record");
+            throw new ResourceNotFoundException(MSG_NO_ANY_RECORD);
         }
 
         return repo.findAll();

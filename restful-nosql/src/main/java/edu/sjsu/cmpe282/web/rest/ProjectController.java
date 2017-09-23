@@ -4,12 +4,12 @@ import edu.sjsu.cmpe282.dao.ProjectRepository;
 import edu.sjsu.cmpe282.domain.Project;
 import edu.sjsu.cmpe282.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -31,13 +31,30 @@ public class ProjectController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Project> getAll() {
+    public List<Project> getAll() {
         return service.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Project findById(@PathVariable("id") int id) {
         return service.findById(id);
+    }
+
+    @RequestMapping(value = "{id}", method =  RequestMethod.DELETE)
+    public Project delete(@PathVariable("id") int id)
+    {
+        return service.delete(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Project create(@RequestBody Project ctxCreated,
+                          HttpServletRequest request, HttpServletResponse response) {
+        Project projectCreated = service.create(ctxCreated);
+        response.setHeader("Location",
+                request.getRequestURL().append("/").append(projectCreated.getId()).toString());
+
+        return projectCreated;
     }
 
 }

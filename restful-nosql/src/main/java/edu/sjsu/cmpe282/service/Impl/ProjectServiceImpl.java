@@ -1,8 +1,8 @@
 package edu.sjsu.cmpe282.service.Impl;
 
-
 import edu.sjsu.cmpe282.dao.ProjectRepository;
 import edu.sjsu.cmpe282.domain.Project;
+import edu.sjsu.cmpe282.exception.ResourceConflictException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
 import edu.sjsu.cmpe282.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,9 @@ import java.util.List;
 /**
  * ProjectServiceImpl: implementation all CRUD business logic for Project
  */
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
-
     public static String MSG_NO_ANY_RECORD = "Poject records are empty";
     public static String MSG_TEMPLATE_NOT_EXIST = "Project: with id:{%d} did not exist";
     public static String MSG_TEMPLATE_IS_EXIST = "Project: with id:{%d} already existed";
@@ -24,18 +24,33 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository repo;
 
     @Override
-    public Project create(Project project) {
-        return null;
+    public Project create(Project ctxCreated) {
+        Integer id = ctxCreated.getId();
+        Project p = repo.findById(id);
+
+        if (p != null) {
+            throw new ResourceConflictException(
+                    String.format(MSG_TEMPLATE_IS_EXIST, id));
+        }
+
+        repo.save(ctxCreated);
+
+        return ctxCreated;
     }
 
     @Override
-    public Project delete(Integer integer) {
-        return null;
+    public Project delete(Integer id) {
+        Project p = findById(id);
+
+        if (p != null) {
+            repo.delete(p);
+        }
+
+        return p;
     }
 
     @Override
     public List<Project> findAll() {
-
         List<Project> p = repo.findAll();
 
         if (p.size() == 0) {

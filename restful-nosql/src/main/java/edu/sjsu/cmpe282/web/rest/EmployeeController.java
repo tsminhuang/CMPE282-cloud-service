@@ -32,7 +32,6 @@ public class EmployeeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Employee> getAll() {
-
         return service.findAll();
     }
 
@@ -48,12 +47,12 @@ public class EmployeeController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee create(@RequestBody Employee employee,
+    public Employee create(@RequestBody Employee ctxCreated,
                            HttpServletRequest request, HttpServletResponse response) {
+        Employee employeeCreated = service.create(ctxCreated);
+        response.setHeader("Location",
+                request.getRequestURL().append("/").append(employeeCreated.getId()).toString());
 
-        Employee newEmployee = service.create(employee);
-        response.setHeader("Location", request.getRequestURL().append("/").append(newEmployee.getId()).toString());
-
-        return newEmployee;
+        return employeeCreated;
     }
 }

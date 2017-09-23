@@ -2,9 +2,9 @@ package edu.sjsu.cmpe282.service;
 
 import java.util.List;
 
-public interface IService<T, ID> {
+public interface ICRUDService<T, ID> {
 
-    T create(T t);
+    T create(T ctxCreated);
 
     T delete(ID id);
 
@@ -12,5 +12,5 @@ public interface IService<T, ID> {
 
     T findById(ID id);
 
-    T update(T t);
+    T update(T ctxUpdated);
 }
