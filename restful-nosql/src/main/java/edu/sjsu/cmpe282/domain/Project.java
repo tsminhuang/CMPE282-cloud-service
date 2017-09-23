@@ -1,18 +1,23 @@
 package edu.sjsu.cmpe282.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * Project doucment in MongoDB
+ * Project document in MongoDB
  */
-
 @Document(collection = "project")
 public class Project {
+    public static final int ID_NOT_ASSIGN = -1;
+    public static final float BUDGET_NOT_ASSIGN = -1.0f;
 
     // This is dummy mapping to make mango can work
     @Id
@@ -20,10 +25,20 @@ public class Project {
 
     @Field("id")
     @Indexed(name = "id", unique = true)
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     private int id;
 
+    @NotNull
+    @NotEmpty
     private String name;
+
+    @Min(0)
     private float budget;
+
+    public Project() {
+        id = ID_NOT_ASSIGN;
+    }
 
     public Project(int id, String name, float budget) {
         this.id = id;

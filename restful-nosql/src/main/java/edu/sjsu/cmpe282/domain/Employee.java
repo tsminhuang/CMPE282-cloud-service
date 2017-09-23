@@ -1,19 +1,22 @@
 package edu.sjsu.cmpe282.domain;
 
-
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
  * Employee document object in MongoDB
  */
-
 @Document(collection = "employee")
 public class Employee {
+    public static final int ID_NOT_ASSIGN = -1;
 
     // This is dummy mapping to make mango can work
     @Id
@@ -21,13 +24,20 @@ public class Employee {
 
     @Field("id")
     @Indexed(name = "id", unique = true)
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
     private int id;
 
+    @NotNull
+    @NotEmpty
     private String firstName;
+
+    @NotNull
+    @NotEmpty
     private String lastName;
 
     public Employee() {
-
+        id = ID_NOT_ASSIGN;
     }
 
     public Employee(int id, String firstName, String lastName) {
@@ -75,4 +85,5 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(dummyId, id, firstName, lastName);
     }
+
 }

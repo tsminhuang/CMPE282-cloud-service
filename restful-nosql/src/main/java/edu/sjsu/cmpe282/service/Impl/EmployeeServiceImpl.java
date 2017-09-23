@@ -2,8 +2,10 @@ package edu.sjsu.cmpe282.service.Impl;
 
 import edu.sjsu.cmpe282.dao.EmployeeRepository;
 import edu.sjsu.cmpe282.domain.Employee;
-import edu.sjsu.cmpe282.exception.ResourceConflictException;
+import edu.sjsu.cmpe282.exception.ErrorMessage;
+import edu.sjsu.cmpe282.exception.ResourceCreateException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
+import edu.sjsu.cmpe282.service.EmployeeCtxUpdate;
 import edu.sjsu.cmpe282.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,49 +15,45 @@ import java.util.List;
 /**
  * EmployeeServiceImpl: implementation all CRUD business logic for Employee
  */
-
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    public static String MSG_NO_ANY_RECORD = "Employee records are empty";
-    public static String MSG_TEMPLATE_NOT_EXIST = "Employee with id:{%d} did not exist";
-    public static String MSG_TEMPLATE_IS_EXIST = "Employee with id:{%d} already existed";
-
-
     @Autowired
     private EmployeeRepository repo;
 
-    @Override
-    public Employee create(Employee ctxCreated) {
-        Integer id = ctxCreated.getId();
-        Employee e = repo.findById(id);
+    @Autowired
+    private EmployeeCtxUpdate ctx;
 
-        if (e != null) {
-            throw new ResourceConflictException(
-                    String.format(MSG_TEMPLATE_IS_EXIST, id));
+    @Override
+    public Employee create(Employee newCtx) {
+        Integer id = newCtx.getId();
+        Employee dbCtx = repo.findById(id);
+
+        if (dbCtx != null) {
+            throw new ResourceCreateException(ErrorMessage.msgRecordIsExist(id));
         }
 
-        repo.save(ctxCreated);
+        repo.save(newCtx);
 
-        return ctxCreated;
+        return newCtx;
     }
 
     @Override
     public Employee delete(Integer id) {
-        Employee e = findById(id);
+        Employee dbCtx = findById(id);
 
-        if (e != null) {
-            repo.delete(e);
+        if (dbCtx != null) {
+            repo.delete(dbCtx);
         }
 
-        return e;
+        return dbCtx;
     }
 
     @Override
     public List<Employee> findAll() {
-        List<Employee> e = repo.findAll();
+        List<Employee> dbCollect = repo.findAll();
 
-        if (e.size() == 0) {
-            throw new ResourceNotFoundException(MSG_NO_ANY_RECORD);
+        if (dbCollect.size() == 0) {
+            throw new ResourceNotFoundException(ErrorMessage.msgEmptyCollection());
         }
 
         return repo.findAll();
@@ -63,18 +61,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(Integer id) {
-        Employee e = repo.findById(id);
+        Employee dbCtx = repo.findById(id);
 
-        if (e == null) {
-            throw new ResourceNotFoundException(
-                    String.format(MSG_TEMPLATE_NOT_EXIST, id));
+        if (dbCtx == null) {
+            throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
         }
 
-        return e;
+        return dbCtx;
     }
 
     @Override
-    public Employee update(Employee employee) {
+    public Employee update(Integer id, Employee newCtx) {
+        // Check id if give in JSON, if not use requested id
+        if (newCtx.getId() == Employee.ID_NOT_ASSIGN) {
+            newCtx.setId(id);
+        }
+
+        Employee dbCtx = repo.findById(newCtx.getId());
+        if (dbCtx == null) {
+            throw new ResourceNotFoundException(
+                    ErrorMessage.msgRecordNotFound(id));
+        }
+
+        if (ctx.update(dbCtx, newCtx)) {
+            return repo.save(dbCtx);
+        }
+
         return null;
     }
 }

@@ -2,8 +2,10 @@ package edu.sjsu.cmpe282.service.Impl;
 
 import edu.sjsu.cmpe282.dao.ProjectRepository;
 import edu.sjsu.cmpe282.domain.Project;
-import edu.sjsu.cmpe282.exception.ResourceConflictException;
+import edu.sjsu.cmpe282.exception.ErrorMessage;
+import edu.sjsu.cmpe282.exception.ResourceCreateException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
+import edu.sjsu.cmpe282.service.ProjectCtxUpdate;
 import edu.sjsu.cmpe282.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,48 +15,45 @@ import java.util.List;
 /**
  * ProjectServiceImpl: implementation all CRUD business logic for Project
  */
-
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    public static String MSG_NO_ANY_RECORD = "Poject records are empty";
-    public static String MSG_TEMPLATE_NOT_EXIST = "Project: with id:{%d} did not exist";
-    public static String MSG_TEMPLATE_IS_EXIST = "Project: with id:{%d} already existed";
-
     @Autowired
     private ProjectRepository repo;
 
-    @Override
-    public Project create(Project ctxCreated) {
-        Integer id = ctxCreated.getId();
-        Project p = repo.findById(id);
+    @Autowired
+    private ProjectCtxUpdate ctx;
 
-        if (p != null) {
-            throw new ResourceConflictException(
-                    String.format(MSG_TEMPLATE_IS_EXIST, id));
+    @Override
+    public Project create(Project newCtx) {
+        Integer id = newCtx.getId();
+        Project dbCtx = repo.findById(id);
+
+        if (dbCtx != null) {
+            throw new ResourceCreateException(ErrorMessage.msgRecordIsExist(id));
         }
 
-        repo.save(ctxCreated);
+        repo.save(newCtx);
 
-        return ctxCreated;
+        return newCtx;
     }
 
     @Override
     public Project delete(Integer id) {
-        Project p = findById(id);
+        Project dbCtx = findById(id);
 
-        if (p != null) {
-            repo.delete(p);
+        if (dbCtx != null) {
+            repo.delete(dbCtx);
         }
 
-        return p;
+        return dbCtx;
     }
 
     @Override
     public List<Project> findAll() {
-        List<Project> p = repo.findAll();
+        List<Project> dbCollect = repo.findAll();
 
-        if (p.size() == 0) {
-            throw new ResourceNotFoundException(MSG_NO_ANY_RECORD);
+        if (dbCollect.size() == 0) {
+            throw new ResourceNotFoundException(ErrorMessage.msgEmptyCollection());
         }
 
         return repo.findAll();
@@ -62,18 +61,32 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project findById(Integer id) {
-        Project p = repo.findById(id);
+        Project dbCtx = repo.findById(id);
 
-        if (p == null) {
-            throw new ResourceNotFoundException(
-                    String.format(MSG_TEMPLATE_NOT_EXIST, id));
+        if (dbCtx == null) {
+            throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
+
         }
 
-        return p;
+        return dbCtx;
     }
 
     @Override
-    public Project update(Project project) {
+    public Project update(Integer id, Project newCtx) {
+        // Check id if give in JSON, if not use requested id
+        if (newCtx.getId() == Project.ID_NOT_ASSIGN) {
+            newCtx.setId(id);
+        }
+
+        Project dbCtx = repo.findById(id);
+        if (dbCtx == null) {
+            throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
+        }
+
+        if (ctx.update(dbCtx, newCtx)) {
+            return repo.save(dbCtx);
+        }
+
         return null;
     }
 }

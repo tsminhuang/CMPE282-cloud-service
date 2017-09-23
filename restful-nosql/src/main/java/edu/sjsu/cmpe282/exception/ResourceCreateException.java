@@ -4,12 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * ResourceConflictException: handle create object conflict exception
+ * ResourceCreateException: handle create object conflict exception
  */
-
 @ResponseStatus(value = HttpStatus.CONFLICT)
-public class ResourceConflictException extends RuntimeException {
-    public ResourceConflictException(String message) {
+public class ResourceCreateException extends RuntimeException {
+    public ResourceCreateException(String message) {
         super(message);
     }
 }
