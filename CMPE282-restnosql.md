@@ -5,7 +5,7 @@
 ####a. List technologies, softwares (including version), and platforms for dev tools, REST client, REST server, and NoSQL database.
 * OS: Mac OSX 10.12.6
 * Dev tools: IntelliJ IDEA ULTIMATE 2017.2
-* REST Client: IntelliJ (Restful Web Service Test Tool)
+* REST Client: Rested 2.7
 * RSST Server: Spring-boot 1.5.7, Spring 4.3.11, Tomcat 8.5.20 (Spring embeded)
 * NoSQL database: MongoDB (3.4.9)
 
@@ -22,9 +22,11 @@ Add addtional header to indicate this is JSON format:
 ```Content-Type: application/json```
 Request body: 
 ```{ "id": 1, "firstName" : "John", "lastName:" "Doe"}```
-  
+
+<div style="page-break-after: always;"></div>
+ 
 ####e. If the NoSQL needs to create DB objects beforehand
-Frist, make user mongod damon is startup, then use MongoDB shell to declare db name to be used
+Frist, make user mongod daemon is startup, then use MongoDB shell to declare DB name.
  
  ```  
  use cmpe282tsungmin146
@@ -45,6 +47,25 @@ Frist, make user mongod damon is startup, then use MongoDB shell to declare db n
 |   9 | GET /.../rest/employee      | OK (200)      | Not found (404) | Done  |
 |  10 | GET /.../rest/project       | OK (200)      | Not found (404) | Done  |
 
+<div style="page-break-after: always;"></div>
+
+#List known issues
+
+##1. Exception handle and parameter validation
+For current implementation, use annotation **@Validted** and **@Valid** to check URL parameter check and JSON input check.
+It avoids a lot of condition statement in business logic. However, the exception just direct throw by validation may cause hard to figure out the error message.
+
+##2. Code redundancy 
+A lot of code logic is the almost the same. For example:
+**PUT API for employee and project** 
+    * Check JSON content is valid for object 
+    * Retrieve form NoSQL DB test object exists
+    * Update object data
+    * Save object back
+The part of business code should be encapsulated to achieve code reuse.
+
+<div style="page-break-after: always;"></div>
+
 [PR.CLEAN]: img/PR.0.png
 [PR.MULTI]: img/PR.3.png
 [EM.CLEAN]: img/EM.0.png
@@ -53,83 +74,102 @@ Frist, make user mongod damon is startup, then use MongoDB shell to declare db n
 [01.S.RS]: img/01.S.RS.png
 [01.E.RS]: img/01.E.RS.png
 
-* GET /.../rest/employee/m
+##GET /.../rest/employee/m
 
- * Success: Query with exist id
+###Success: Query with exist Id=1
  
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][EM.MULTI] |
- | MongoDB | ![][01.S.RS] |
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][EM.MULTI]    |
+| MongoDB | ![][01.S.RS]     |
+ 
+<div style="page-break-after: always;"></div>
 
-* Error: Query with non exist id
+###Error: Query with non exist Id=5
 
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][EM.MULTI] |
- | MongoDB | ![][01.E.RS] |
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][EM.MULTI]    |
+| MongoDB | ![][01.E.RS]     |
+
+<div style="page-break-after: always;"></div>
  
 [02.S.RS]: img/02.S.RS.png
 [02.E.RS]: img/02.E.RS.png
 
-* GET /.../rest/project/n
- * Success: Query with exist id
+##GET /.../rest/project/n
+
+###Success: Query with exist Id=4
  
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][PR.MULTI] |
- | MongoDB | ![][02.S.RS] |
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][PR.MULTI]    |
+| MongoDB | ![][02.S.RS]     |
 
-* Error: Query with non exist id
+<div style="page-break-after: always;"></div>
 
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][PR.MULTI] |
- | MongoDB | ![][02.E.RS] |
+###Error: Query with non exist Id=999
+
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][PR.MULTI]    |
+| MongoDB | ![][02.E.RS]     |
+
+<div style="page-break-after: always;"></div>
 
 [03.S.RS]: img/03.S.RS.png
 [03.S.DB]: img/03.S.DB.png
 [03.E.RS]: img/03.E.RS.png
 [03.E.DB]: img/03.E.DB.png
 
-* POST /.../rest/employee
- * Success: Create Project based JSON context
+##POST /.../rest/employee
+
+###Success: Create employee based JSON context
  
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][EM.CLEAN] |
- | Create  | ![][03.S.RS]     |
- | MongoDB | ![][03.S.DB]     |
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][EM.CLEAN]    |
+| Create  | ![][03.S.RS]     |
+| MongoDB | ![][03.S.DB]     |
+
+<div style="page-break-after: always;"></div>
  
-* Error: Send REST request with same Id
+###Error: Create employee with the same Id=99
  
- |         | Screen Shot   |
- |---------|:-------------:|
- | MongoDB | ![][03.S.DB]  |
- | Create  | ![][03.E.RS]  |       
- | MongoDB | ![][03.E.DB]  |
+|          | Screen Shot   |
+|----------|:-------------:|
+| MongoDB  | ![][03.S.DB]  |
+| Conflict | ![][03.E.RS]  |    
+| MongoDB  | ![][03.E.DB]  |
+ 
+<div style="page-break-after: always;"></div>
  
 [04.S.RS]: img/04.S.RS.png
 [04.S.DB]: img/04.S.DB.png
 [04.E.RS]: img/04.E.RS.png
 [04.E.DB]: img/04.E.DB.png
 
-* POST /.../rest/project
- * Success: Create Project based JSON context
+##POST /.../rest/project
+
+###Success: Create project based JSON context
  
- |         | Screen Shot      |
- |---------|:----------------:|
- | MongoDB | ![][PR.CLEAN] |
- | Create  | ![][04.S.RS]     |
- | MongoDB | ![][04.S.DB]     |
+|         | Screen Shot      |
+|---------|:----------------:|
+| MongoDB | ![][PR.CLEAN]    |
+| Create  | ![][04.S.RS]     |
+| MongoDB | ![][04.S.DB]     |
+
+<div style="page-break-after: always;"></div>
  
- * Error: Send REST request with same Id
+###Error: Create project with the same Id=1
  
- |         | Screen Shot   |
- |---------|:-------------:|
- | MongoDB | ![][04.S.DB]  |
- | Create  | ![][04.E.RS]  |       
- | MongoDB | ![][04.E.DB]  |
+|         | Screen Shot   |
+|---------|:-------------:|
+| MongoDB | ![][04.S.DB]  |
+| Create  | ![][04.E.RS]  |       
+| MongoDB | ![][04.E.DB]  |
+ 
+<div style="page-break-after: always;"></div>
  
 [05.S.RS.1]: img/05.S.RS.1.png
 [05.S.DB.1]: img/05.S.DB.1.png
@@ -142,28 +182,31 @@ Frist, make user mongod damon is startup, then use MongoDB shell to declare db n
 [05.E.RS.2]: img/05.E.RS.2.png
 [05.E.DB.2]: img/05.E.DB.2.png
 
-* PUT /.../rest/project/n
- * Success: Demo partial update, except Id
+##PUT /.../rest/employee/n
+
+###Success: Demo employee Id=99 partial update
  
- |                  | Screen Shot     |
- |------------------|:---------------:|
- | MongoDB          | ![][03.E.DB]    |
- | Update fist name | ![][05.S.RS.1]  |
- | MongoDB          | ![][05.S.DB.1]  |
- | Update last name | ![][05.S.RS.2]  |
- | MongoDB          | ![][05.S.DB.2]  |
- | Update all       | ![][05.S.RS.3]  |
- | MongoDB          | ![][05.S.DB.3]  |
+|                   | Screen Shot     |
+|-------------------|:---------------:|
+| MongoDB           | ![][03.E.DB]    |
+| Update fisrt name | ![][05.S.RS.1]  |
+| MongoDB           | ![][05.S.DB.1]  |
+| Update last name  | ![][05.S.RS.2]  |
+| MongoDB           | ![][05.S.DB.2]  |
+| Update all        | ![][05.S.RS.3]  |
+| MongoDB           | ![][05.S.DB.3]  |
  
- * Error: Id not exist error, REST id not match request content error
+<div style="page-break-after: always;"></div>
  
- |                            | Screen Shot    |
- |----------------------------|:--------------:|
- | MongoDB                    | ![][05.S.DB.3] |
- | Id not exist               | ![][05.E.RS.1] |
- | MongoDB                    | ![][05.E.DB.2] |
- | URL and JSON id not match  | ![][05.E.RS.2] |
- | MongoDB                    | ![][05.E.DB.2] |
+###Error: Employee Id=4 does not exist error, employ in JSON Id=10 does not match request URL
+ 
+|                            | Screen Shot    |
+|----------------------------|:--------------:|
+| MongoDB                    | ![][05.S.DB.3] |
+| Id not exist               | ![][05.E.RS.1] |
+| MongoDB                    | ![][05.E.DB.1] |
+| URL and JSON id not match  | ![][05.E.RS.2] |
+| MongoDB                    | ![][05.E.DB.2] |
 
 [06.S.RS.1]: img/06.S.RS.1.png
 [06.S.DB.1]: img/06.S.DB.1.png
@@ -176,101 +219,127 @@ Frist, make user mongod damon is startup, then use MongoDB shell to declare db n
 [06.E.RS.2]: img/06.E.RS.2.png
 [06.E.DB.2]: img/06.E.DB.2.png
 
-* PUT /.../rest/project/n
- * Success: Demo partial update, except Id
+##PUT /.../rest/project/n
+
+###Success: Demo project Id=1 partial update
  
- |               | Screen Shot     |
- |---------------|:---------------:|
- | MongoDB       | ![][04.E.DB]    |
- | Update name   | ![][06.S.RS.1]  |
- | MongoDB       | ![][06.S.DB.1]  |
- | Update budget | ![][06.S.RS.2]  |
- | MongoDB       | ![][06.S.DB.2]  |
- | Update all    | ![][06.S.RS.3]  |
- | MongoDB       | ![][06.S.DB.3]  |
+|               | Screen Shot     |
+|---------------|:---------------:|
+| MongoDB       | ![][04.E.DB]    |
+| Update name   | ![][06.S.RS.1]  |
+| MongoDB       | ![][06.S.DB.1]  |
+| Update budget | ![][06.S.RS.2]  |
+| MongoDB       | ![][06.S.DB.2]  |
+| Update all    | ![][06.S.RS.3]  |
+| MongoDB       | ![][06.S.DB.3]  |
+
+<div style="page-break-after: always;"></div> 
  
- * Error: Id not exist error, REST id not match request content error
+###Error: Project Id=4 does not exist error, project in JSON Id=1 does not match request URL
  
- |                            | Screen Shot    |
- |----------------------------|:--------------:|
- | MongoDB                    | ![][06.S.DB.3] |
- | Id not exist               | ![][06.E.RS.1] |
- | MongoDB                    | ![][06.E.DB.2] |
- | URL and JSON id not match  | ![][06.E.RS.2] |
- | MongoDB                    | ![][06.E.DB.2] |
+|                            | Screen Shot    |
+|----------------------------|:--------------:|
+| MongoDB                    | ![][06.S.DB.3] |
+| Id not exist               | ![][06.E.RS.1] |
+| MongoDB                    | ![][06.E.DB.2] |
+| URL and JSON id not match  | ![][06.E.RS.2] |
+| MongoDB                    | ![][06.E.DB.2] |
+
+<div style="page-break-after: always;"></div>
+ 
+[07.S.RS]: img/07.S.RS.png
+[07.S.DB]: img/07.S.DB.png
+[07.E.RS]: img/07.E.RS.png
+[07.E.DB]: img/07.E.DB.png
+ 
+##DELETE /.../rest/employee/n
+
+###Success: Delete with Id=1
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][EM.MULTI]    |
+| Delete     | ![][07.S.RS]     |
+| MongoDB    | ![][07.S.DB]     |
+
+###Error: Delete with non exist Id=9
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][07.S.DB]     |
+| No records | ![][07.E.RS]     |
+| MongoDB    | ![][07.E.DB]     |
+
+<div style="page-break-after: always;"></div>
  
 [08.S.RS]: img/08.S.RS.png
 [08.S.DB]: img/08.S.DB.png
 [08.E.RS]: img/08.E.RS.png
 [08.E.DB]: img/08.E.DB.png
  
-* DELETE /.../rest/project/n
- * Success: Delete with assign Id
+##DELETE /.../rest/project/n
+
+###Success: Delete with Id=4
  
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][PR.MULTI]    |
- | Delete     | ![][08.S.RS]     |
- | MongoDB    | ![][08.S.DB]     |
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][PR.MULTI]    |
+| Delete     | ![][08.S.RS]     |
+| MongoDB    | ![][08.S.DB]     |
  
- * Error: Delete with non exist Id
+<div style="page-break-after: always;"></div>
  
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][08.S.DB]     |
- | No records | ![][08.E.RS]     |
- | MongoDB    | ![][08.E.DB]     |
+###Error: Delete with non exist Id=88
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][08.S.DB]     |
+| No records | ![][08.E.RS]     |
+| MongoDB    | ![][08.E.DB]     |
+
+<div style="page-break-after: always;"></div>
  
 [09.S.RS]: img/09.S.RS.png
 [09.E.RS]: img/09.E.RS.png
 
-* GET /.../rest/employee
- * Success: Get all employee
- 
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][EM.MULTI]    |
- | No records | ![][09.S.RS]     |
- 
- * Error: Not collection data
- 
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][EM.CLEAN]    |
- | No records | ![][09.E.RS]     |
+##GET /.../rest/employee
 
+###Success: Get all employee
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][EM.MULTI]    |
+| No records | ![][09.S.RS]     |
+ 
+<div style="page-break-after: always;"></div>
+
+###Error: Not collection data
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][EM.CLEAN]    |
+| No records | ![][09.E.RS]     |
+
+<div style="page-break-after: always;"></div>
 
 [10.S.RS]: img/10.S.RS.png
 [10.E.RS]: img/10.E.RS.png
 
-* GET /.../rest/project
- * Success: Get all project collection
- 
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][PR.MULTI]    |
- | No records | ![][10.S.RS]     |
- 
- * Error: Not collection data
- 
- |            | Screen Shot      |
- |------------|:----------------:|
- | MongoDB    | ![][PR.CLEAN]    |
- | No records | ![][10.E.RS]     |
+##GET /.../rest/project
 
+###Success: Get all project
  
-####List known issuse
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][PR.MULTI]    |
+| No records | ![][10.S.RS]     |
 
-####1. Exception handle and parameter validation
-For current implementation, use annotation **@Validted** and **@Valid** to check URL parameter check and JSON input input check.
-It is avoid lot of condition statement in business logic. However, the exception just direct throw by valdiation may cause hard to figure out the error message.
-
-####2. Code reduency 
-A lot of code logic is the almost the same. For example:
-**PUT api for employee and proejct** 
-    * Check JSON contect is valid for object 
-    * Retrive form NoSQL DB check object is existed
-    * Update object data
-    * Save object back
-The part of business code should be encapsulate to achieve code reuse.
+<div style="page-break-after: always;"></div>
+ 
+###Error: Not collection data
+ 
+|            | Screen Shot      |
+|------------|:----------------:|
+| MongoDB    | ![][PR.CLEAN]    |
+| No records | ![][10.E.RS]     |
 
