@@ -7,16 +7,16 @@ import edu.sjsu.cmpe282.exception.ResourceCreateException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
 import edu.sjsu.cmpe282.service.ProjectCtxUpdate;
 import edu.sjsu.cmpe282.service.ProjectService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * ProjectServiceImpl: implementation all CRUD business logic for Project
  */
 @Service
 public class ProjectServiceImpl implements ProjectService {
+
     @Autowired
     private ProjectRepository repo;
 
@@ -65,7 +65,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (dbCtx == null) {
             throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
-
         }
 
         return dbCtx;

@@ -12,5 +12,4 @@ public class RestfulNosqlApplicationTests {
     @Test
     public void contextLoads() {
     }
-
 }

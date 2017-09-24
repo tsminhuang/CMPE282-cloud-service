@@ -1,21 +1,21 @@
 package edu.sjsu.cmpe282.domain;
 
+import java.util.Objects;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
-
 /**
  * Employee document object in MongoDB
  */
 @Document(collection = "employee")
 public class Employee {
+
     public static final int ID_NOT_ASSIGN = -1;
 
     // This is dummy mapping to make mango can work
@@ -72,18 +72,21 @@ public class Employee {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Employee employee = (Employee) o;
-        return id == employee.id &&
-                Objects.equals(dummyId, employee.dummyId) &&
-                Objects.equals(firstName, employee.firstName) &&
-                Objects.equals(lastName, employee.lastName);
+        return id == employee.id
+            && Objects.equals(dummyId, employee.dummyId)
+            && Objects.equals(firstName, employee.firstName)
+            && Objects.equals(lastName, employee.lastName);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(dummyId, id, firstName, lastName);
     }
-
 }

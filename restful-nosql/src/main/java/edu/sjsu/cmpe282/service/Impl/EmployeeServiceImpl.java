@@ -7,16 +7,16 @@ import edu.sjsu.cmpe282.exception.ResourceCreateException;
 import edu.sjsu.cmpe282.exception.ResourceNotFoundException;
 import edu.sjsu.cmpe282.service.EmployeeCtxUpdate;
 import edu.sjsu.cmpe282.service.EmployeeService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * EmployeeServiceImpl: implementation all CRUD business logic for Employee
  */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     @Autowired
     private EmployeeRepository repo;
 
@@ -79,8 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee dbCtx = repo.findById(newCtx.getId());
         if (dbCtx == null) {
-            throw new ResourceNotFoundException(
-                    ErrorMessage.msgRecordNotFound(id));
+            throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
         }
 
         if (ctx.update(dbCtx, newCtx)) {

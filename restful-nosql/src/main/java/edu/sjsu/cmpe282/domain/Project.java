@@ -1,21 +1,21 @@
 package edu.sjsu.cmpe282.domain;
 
+import java.util.Objects;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.util.Objects;
-
 /**
  * Project document in MongoDB
  */
 @Document(collection = "project")
 public class Project {
+
     public static final int ID_NOT_ASSIGN = -1;
     public static final float BUDGET_NOT_ASSIGN = -1.0f;
 
@@ -72,13 +72,17 @@ public class Project {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Project project = (Project) o;
-        return id == project.id &&
-                Float.compare(project.budget, budget) == 0 &&
-                Objects.equals(dummyId, project.dummyId) &&
-                Objects.equals(name, project.name);
+        return id == project.id
+            && Float.compare(project.budget, budget) == 0
+            && Objects.equals(dummyId, project.dummyId)
+            && Objects.equals(name, project.name);
     }
 
     @Override

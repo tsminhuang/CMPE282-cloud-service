@@ -7,5 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * EmployeeRepository: used MongoRepository generate CRUD for us
  */
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
+
     Employee findById(Integer id);
 }
