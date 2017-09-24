@@ -28,9 +28,7 @@ Request body:
 ####e. If the NoSQL needs to create DB objects beforehand
 Frist, make user mongod daemon is startup, then use MongoDB shell to declare DB name.
  
- ```  
- use cmpe282tsungmin146
- ```
+No need, Spring automatiically 
 
 #Q2. Functionality matrix:
 
@@ -66,174 +64,188 @@ The part of business code should be encapsulated to achieve code reuse.
 
 <div style="page-break-after: always;"></div>
 
-[PR.CLEAN]: img/PR.0.png
-[PR.MULTI]: img/PR.3.png
-[EM.CLEAN]: img/EM.0.png
-[EM.MULTI]: img/EM.3.png
-
-[01.S.RS]: img/01.S.RS.png
-[01.E.RS]: img/01.E.RS.png
 
 ##GET /.../rest/employee/m
 
-###Success: Query with exist Id=1
- 
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][EM.MULTI]    |
-| MongoDB | ![][01.S.RS]     |
+###Success: Get exist Id=1
+
+[GET_EMPLOY_DB_ID1]: img/GET_EMPLOY_DB_ID1.png
+[GET_EMPLOY_RS_ID1]: img/GET_EMPLOY_RS_ID1.png
+
+|         | Screen Shot            |
+|---------|:----------------------:|
+| MongoDB | ![][GET_EMPLOY_DB_ID1] |
+| Clent   | ![][GET_EMPLOY_RS_ID1] |
  
 <div style="page-break-after: always;"></div>
 
-###Error: Query with non exist Id=5
+###Error: Get not exist Id=2
 
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][EM.MULTI]    |
-| MongoDB | ![][01.E.RS]     |
+[GET_EMPLOY_DB_ID2]: img/GET_EMPLOY_DB_ID2.png
+[GET_EMPLOY_RS_ID2]: img/GET_EMPLOY_RS_ID2.png
+
+|         | Screen Shot            |
+|---------|:----------------------:|
+| MongoDB | ![][GET_EMPLOY_DB_ID2] |
+| Clent   | ![][GET_EMPLOY_RS_ID2] |
 
 <div style="page-break-after: always;"></div>
  
-[02.S.RS]: img/02.S.RS.png
-[02.E.RS]: img/02.E.RS.png
 
 ##GET /.../rest/project/n
 
-###Success: Query with exist Id=4
+###Success: Query with exist Id=1
+
+[GET_PROJECT_DB_ID1]: img/GET_PROJECT_DB_ID1.png
+[GET_PROJECT_RS_ID1]: img/GET_PROJECT_RS_ID1.png
  
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][PR.MULTI]    |
-| MongoDB | ![][02.S.RS]     |
+|         | Screen Shot             |
+|---------|:-----------------------:|
+| MongoDB | ![][GET_PROJECT_DB_ID1] |
+| Clent   | ![][GET_PROJECT_RS_ID1] |
 
 <div style="page-break-after: always;"></div>
 
-###Error: Query with non exist Id=999
+###Error: Query with non exist Id=2
 
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][PR.MULTI]    |
-| MongoDB | ![][02.E.RS]     |
+[GET_PROJECT_DB_ID2]: img/GET_PROJECT_DB_ID2.png
+[GET_PROJECT_RS_ID2]: img/GET_PROJECT_RS_ID2.png
+
+|         | Screen Shot             |
+|---------|:-----------------------:|
+| MongoDB | ![][GET_PROJECT_DB_ID2] |
+| Clent   | ![][GET_PROJECT_RS_ID2] |
 
 <div style="page-break-after: always;"></div>
 
-[03.S.RS]: img/03.S.RS.png
-[03.S.DB]: img/03.S.DB.png
-[03.E.RS]: img/03.E.RS.png
-[03.E.DB]: img/03.E.DB.png
+
 
 ##POST /.../rest/employee
 
-###Success: Create employee based JSON context
+###Success: Create employee based JSON: {"id":1", "firstName": "John1", "lastName": "Doe1"}
+
+[POST_EMPLOY_DB_ID]: img/POST_EMPLOY_DB_ID.png
+[POST_EMPLOY_RS_ID1]: img/POST_EMPLOY_RS_ID1.png
+[POST_EMPLOY_DB_ID1]: img/POST_EMPLOY_DB_ID1.png
  
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][EM.CLEAN]    |
-| Create  | ![][03.S.RS]     |
-| MongoDB | ![][03.S.DB]     |
+|         | Screen Shot             |
+|---------|:-----------------------:|
+| MongoDB | ![][POST_EMPLOY_DB_ID]  |
+| Client  | ![][POST_EMPLOY_RS_ID1] |
+| MongoDB | ![][POST_EMPLOY_DB_ID1] |
 
 <div style="page-break-after: always;"></div>
  
-###Error: Create employee with the same Id=99
+###Error: Create employee with the same Id=1
+
+[POST_EMPLOY_DB_ID1]: img/POST_EMPLOY_DB_ID1.png
+[POST_EMPLOY_RS_ID1_1]: img/POST_EMPLOY_RS_ID1_1.png
+[POST_EMPLOY_DB_ID1_1]: img/POST_EMPLOY_DB_ID1_1.png
  
-|          | Screen Shot   |
-|----------|:-------------:|
-| MongoDB  | ![][03.S.DB]  |
-| Conflict | ![][03.E.RS]  |    
-| MongoDB  | ![][03.E.DB]  |
+|         | Screen Shot                |
+|---------|:--------------------------:|
+| MongoDB | ![][POST_EMPLOY_DB_ID1]    |
+| Client  | ![][POST_EMPLOY_RS_ID1_1]  |    
+| MongoDB | ![][POST_EMPLOY_DB_ID1_1]  |
  
 <div style="page-break-after: always;"></div>
- 
-[04.S.RS]: img/04.S.RS.png
-[04.S.DB]: img/04.S.DB.png
-[04.E.RS]: img/04.E.RS.png
-[04.E.DB]: img/04.E.DB.png
 
 ##POST /.../rest/project
 
-###Success: Create project based JSON context
+###Success: Create project based JSON: {"id":1", "name": "project1", budget: 100}
  
-|         | Screen Shot      |
-|---------|:----------------:|
-| MongoDB | ![][PR.CLEAN]    |
-| Create  | ![][04.S.RS]     |
-| MongoDB | ![][04.S.DB]     |
+[POST_PROJECT_DB_ID]: img/POST_PROJECT_DB_ID.png
+[POST_PROJECT_RS_ID1]: img/POST_PROJECT_RS_ID1.png
+[POST_PROJECT_DB_ID1]: img/POST_PROJECT_DB_ID1.png
+ 
+|         | Screen Shot              |
+|---------|:------------------------:|
+| MongoDB | ![][POST_PROJECT_DB_ID]  |
+| Client  | ![][POST_PROJECT_RS_ID1] |
+| MongoDB | ![][POST_PROJECT_DB_ID1] |
 
 <div style="page-break-after: always;"></div>
  
 ###Error: Create project with the same Id=1
  
-|         | Screen Shot   |
-|---------|:-------------:|
-| MongoDB | ![][04.S.DB]  |
-| Create  | ![][04.E.RS]  |       
-| MongoDB | ![][04.E.DB]  |
+[POST_PROJECT_DB_ID]: img/POST_PROJECT_DB_ID.png
+[POST_PROJECT_RS_ID1_1]: img/POST_PROJECT_RS_ID1_1.png
+[POST_PROJECT_DB_ID1_1]: img/POST_PROJECT_DB_ID1_1.png
+ 
+|         | Screen Shot              |
+|---------|:------------------------:|
+| MongoDB | ![][POST_PROJECT_DB_ID]  |
+| Client  | ![][POST_PROJECT_RS_ID1_1] |
+| MongoDB | ![][POST_PROJECT_DB_ID1_1] |
  
 <div style="page-break-after: always;"></div>
  
-[05.S.RS.1]: img/05.S.RS.1.png
-[05.S.DB.1]: img/05.S.DB.1.png
-[05.S.RS.2]: img/05.S.RS.2.png
-[05.S.DB.2]: img/05.S.DB.2.png
-[05.S.RS.3]: img/05.S.RS.3.png
-[05.S.DB.3]: img/05.S.DB.3.png
-[05.E.RS.1]: img/05.E.RS.1.png
-[05.E.DB.1]: img/05.E.DB.1.png
-[05.E.RS.2]: img/05.E.RS.2.png
-[05.E.DB.2]: img/05.E.DB.2.png
 
 ##PUT /.../rest/employee/n
 
-###Success: Demo employee Id=99 partial update
+###Success: update employee Id=1 field
+
+[PUT_EMPLOY_DB_ID1]: img/PUT_EMPLOY_DB_ID1.png
+[PUT_EMPLOY_RS_ID1_FIRST]: img/PUT_EMPLOY_RS_ID1_FIRST.png
+[PUT_EMPLOY_DB_ID1_FIRST]: img/PUT_EMPLOY_DB_ID1_FIRST.png
+[PUT_EMPLOY_RS_ID1_LAST]: img/PUT_EMPLOY_RS_ID1_LAST.png
+[PUT_EMPLOY_DB_ID1_LAST]: img/PUT_EMPLOY_DB_ID1_LAST.png
+[PUT_EMPLOY_RS_ID1_ALL]: img/PUT_EMPLOY_RS_ID1_ALL.png
+[PUT_EMPLOY_DB_ID1_ALL]: img/PUT_EMPLOY_DB_ID1_ALL.png
  
-|                   | Screen Shot     |
-|-------------------|:---------------:|
-| MongoDB           | ![][03.E.DB]    |
-| Update fisrt name | ![][05.S.RS.1]  |
-| MongoDB           | ![][05.S.DB.1]  |
-| Update last name  | ![][05.S.RS.2]  |
-| MongoDB           | ![][05.S.DB.2]  |
-| Update all        | ![][05.S.RS.3]  |
-| MongoDB           | ![][05.S.DB.3]  |
+|         | Screen Shot     |
+|---------|:---------------:|
+| MongoDB | ![][PUT_EMPLOY_DB_ID1]    |
+| Client  | ![][PUT_EMPLOY_RS_ID1_FIRST]  |
+| MongoDB | ![][PUT_EMPLOY_DB_ID1_FIRST]  |
+| Client  | ![][PUT_EMPLOY_RS_ID1_LAST]  |
+| MongoDB | ![][PUT_EMPLOY_DB_ID1_LAST]  |
+| Client  | ![][PUT_EMPLOY_RS_ID1_ALL]  |
+| MongoDB | ![][PUT_EMPLOY_DB_ID1_ALL]  |
  
 <div style="page-break-after: always;"></div>
  
-###Error: Employee Id=4 does not exist error, employ in JSON Id=10 does not match request URL
+###Error: Employee Id=2 does not exist, Employ Id not match JSON Id
  
-|                            | Screen Shot    |
-|----------------------------|:--------------:|
-| MongoDB                    | ![][05.S.DB.3] |
-| Id not exist               | ![][05.E.RS.1] |
-| MongoDB                    | ![][05.E.DB.1] |
-| URL and JSON id not match  | ![][05.E.RS.2] |
-| MongoDB                    | ![][05.E.DB.2] |
+[PUT_EMPLOY_DB_ID2]: img/PUT_EMPLOY_DB_ID2.png
+[PUT_EMPLOY_RS_ID2_1]: img/PUT_EMPLOY_RS_ID2_1.png
+[PUT_EMPLOY_DB_ID2_1]: img/PUT_EMPLOY_DB_ID2_1.png
+[PUT_EMPLOY_DB_ID2_2]: img/PUT_EMPLOY_DB_ID2_2.png
+[PUT_EMPLOY_RS_ID2_2]: img/PUT_EMPLOY_RS_ID2_2.png
+ 
+|         | Screen Shot               |
+|---------|:-------------------------:|
+| MongoDB | ![][PUT_EMPLOY_DB_ID2]    |
+| Client  | ![][PUT_EMPLOY_RS_ID2_1]  |
+| MongoDB | ![][PUT_EMPLOY_DB_ID2_1]  |
+| Client  | ![][PUT_EMPLOY_RS_ID2_2]  |
+| MongoDB | ![][PUT_EMPLOY_DB_ID2_2]  |
 
-[06.S.RS.1]: img/06.S.RS.1.png
-[06.S.DB.1]: img/06.S.DB.1.png
-[06.S.RS.2]: img/06.S.RS.2.png
-[06.S.DB.2]: img/06.S.DB.2.png
-[06.S.RS.3]: img/06.S.RS.3.png
-[06.S.DB.3]: img/06.S.DB.3.png
-[06.E.RS.1]: img/06.E.RS.1.png
-[06.E.DB.1]: img/06.E.DB.1.png
-[06.E.RS.2]: img/06.E.RS.2.png
-[06.E.DB.2]: img/06.E.DB.2.png
+<div style="page-break-after: always;"></div>
 
 ##PUT /.../rest/project/n
 
-###Success: Demo project Id=1 partial update
- 
-|               | Screen Shot     |
-|---------------|:---------------:|
-| MongoDB       | ![][04.E.DB]    |
-| Update name   | ![][06.S.RS.1]  |
-| MongoDB       | ![][06.S.DB.1]  |
-| Update budget | ![][06.S.RS.2]  |
-| MongoDB       | ![][06.S.DB.2]  |
-| Update all    | ![][06.S.RS.3]  |
-| MongoDB       | ![][06.S.DB.3]  |
+###Success: update project Id=1 field
 
-<div style="page-break-after: always;"></div> 
+[PUT_PROJECT_DB_ID1]: img/PUT_PROJECT_DB_ID1.png
+[PUT_PROJECT_RS_ID1_NAME]: img/PUT_PROJECT_RS_ID1_NAME.png
+[PUT_PROJECT_DB_ID1_NAME]: img/PUT_PROJECT_DB_ID1_NAME.png
+[PUT_PROJECT_RS_ID1_BUDGET]: img/PUT_PROJECT_RS_ID1_BUDGET.png
+[PUT_PROJECT_DB_ID1_BUDGET]: img/PUT_PROJECT_DB_ID1_BUDGET.png
+[PUT_PROJECT_RS_ID1_ALL]: img/PUT_PROJECT_RS_ID1_ALL.png
+[PUT_PROJECT_DB_ID1_ALL]: img/PUT_PROJECT_DB_ID1_ALL.png
+ 
+|         | Screen Shot     |
+|---------|:---------------:|
+| MongoDB | ![][PUT_PROJECT_DB_ID1]    |
+| Client  | ![][PUT_PROJECT_RS_ID1_NAME]  |
+| MongoDB | ![][PUT_PROJECT_DB_ID1_NAME]  |
+| Client  | ![][PUT_PROJECT_RS_ID1_BUDGET]  |
+| MongoDB | ![][PUT_PROJECT_DB_ID1_BUDGET]  |
+| Client  | ![][PUT_PROJECT_RS_ID1_ALL]  |
+| MongoDB | ![][PUT_PROJECT_DB_ID1_ALL]  |
+ 
+<div style="page-break-after: always;"></div>
  
 ###Error: Project Id=4 does not exist error, project in JSON Id=1 does not match request URL
  
