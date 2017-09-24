@@ -72,7 +72,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Integer id, Project newCtx) {
-        // Check id if give in JSON, if not use requested id
+        // Check id is not give in JSON, use requested id
         if (newCtx.getId() == Project.ID_NOT_ASSIGN) {
             newCtx.setId(id);
         }

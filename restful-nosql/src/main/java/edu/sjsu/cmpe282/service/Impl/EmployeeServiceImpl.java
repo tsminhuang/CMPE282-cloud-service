@@ -72,12 +72,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee update(Integer id, Employee newCtx) {
-        // Check id if give in JSON, if not use requested id
+        // Check id is not give in JSON, use requested id
         if (newCtx.getId() == Employee.ID_NOT_ASSIGN) {
             newCtx.setId(id);
         }
 
-        Employee dbCtx = repo.findById(newCtx.getId());
+        Employee dbCtx = repo.findById(id);
         if (dbCtx == null) {
             throw new ResourceNotFoundException(ErrorMessage.msgRecordNotFound(id));
         }
