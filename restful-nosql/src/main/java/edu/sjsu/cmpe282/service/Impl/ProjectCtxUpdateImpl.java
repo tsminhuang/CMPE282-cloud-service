@@ -11,7 +11,6 @@ public class ProjectCtxUpdateImpl implements ProjectCtxUpdate {
 
     @Override
     public boolean update(Project dbCtx, Project newCtx) {
-
         if (dbCtx.getId() != newCtx.getId()) {
             throw new ResourceNotFoundException(
                 ErrorMessage.msgNotMatchId(dbCtx.getId(), newCtx.getId()));

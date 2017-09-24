@@ -24,6 +24,6 @@ public class EmployeeCtxUpdateImpl implements EmployeeCtxUpdate {
             dbCtx.setLastName(newCtx.getLastName());
         }
 
-        return false;
+        return true;
     }
 }
