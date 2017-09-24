@@ -16,7 +16,8 @@ public class ProjectCtxUpdateImpl implements ProjectCtxUpdate {
                 ErrorMessage.msgNotMatchId(dbCtx.getId(), newCtx.getId()));
         }
 
-        if (newCtx.getBudget() != Project.BUDGET_NOT_ASSIGN) {
+        // TODO: Find a better way to check some field is not given
+        if (newCtx.getBudget() > Project.BUDGET_NOT_ASSIGN) {
             dbCtx.setBudget(newCtx.getBudget());
         }
 

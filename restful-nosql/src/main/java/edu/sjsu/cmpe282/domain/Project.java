@@ -38,6 +38,7 @@ public class Project {
 
     public Project() {
         id = ID_NOT_ASSIGN;
+        budget = BUDGET_NOT_ASSIGN;
     }
 
     public Project(int id, String name, float budget) {
