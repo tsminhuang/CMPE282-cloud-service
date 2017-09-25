@@ -26,7 +26,7 @@ Request body:
 <div style="page-break-after: always;"></div>
  
 ####e. If the NoSQL needs to create DB objects beforehand 
-No need. Spring automatiically generate DB with assigned name. Just make sure mongoDB daemon is running.
+No need. Spring automatiically generate DB with assigned name. Just make sure MongoDB daemon is running.
 
 #Q2. Functionality matrix:
 
