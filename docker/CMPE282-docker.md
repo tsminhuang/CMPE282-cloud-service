@@ -158,12 +158,52 @@ spring.data.mongodb.uri=mongodb://dbTsungMin146:27017/cmpe282tsungmin146
 
 ![REST_DEL_ID_20]#### issue a “GET /.../rest/employee“ request to retrieve all employees
 
-[REST_GET_ALL_UPDATE]: img/REST_GET_ALL_UPDATE
+[REST_GET_ALL_UPDATE]: img/REST_GET_ALL_UPDATE.png
 
 ![REST_GET_ALL_UPDATE]##Q6. In addition to the original homework, use docker compose to build and deploy containers in Q2 and Q3.
+
+docker-compose.yml version 3 need docker 1.13.0+.
+Using the following command to install latest docker-compse.
+
+```
+sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudoc chmod +x /usr/local/bin/docker-compose
+```
+
+[DOCKER_COMPOSE_UP]: img/DOCKER_COMPOSE_UP.png
+
+![DOCKER_COMPOSE_UP]
 
 docker-compose.yml:
 
 ```
+version: '3'
+services:
+  restapp:
+    container_name: appTsungMin146
+    image: java:8
+    ports:
+      - "80:8080"
+    working_dir: /rest
+    volumes:
+      - ./restapp:/rest
+    links:
+      - mongodb
+    networks: 
+      - rest-nosql
+    command: java -jar cmpe282tsungmin146.jar --spring.config.location="file:/application.properties"
+
+  mongodb:
+    container_name: dbTsungMin146
+    image: mongo:3.4.9
+    networks: 
+      rest-nosql:
+        aliases:
+          - dbTsungMin146
+          # application.properties uri ignore case 
+          - dbtsungmin146
+
+networks: 
+  rest-nosql: 
 ```
 
