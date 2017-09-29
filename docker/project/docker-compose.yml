@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3'
 services:
   restapp:
     container_name: appTsungMin146
@@ -9,9 +9,20 @@ services:
     volumes:
       - ./restapp:/rest
     links:
-      - mongodb:dbTsungMin146
+      - "mongodb:dbTsungMin146"
+    networks: 
+      - rest-nosql
     command: java -jar cmpe282tsungmin146.jar --spring.config.location="file:/application.properties"
 
   mongodb:
     container_name: dbTsungMin146
     image: mongo:3.4.9
+    networks: 
+      rest-nosql:
+        aliases:
+          - dbTsungMin146
+          # TODO: fix application.properties uri ignore case 
+          - dbtsungmin146
+
+networks: 
+  rest-nosql:
