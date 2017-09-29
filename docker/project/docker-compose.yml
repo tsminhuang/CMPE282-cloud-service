@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   restapp:
-    container_name: apptsungmin146
+    container_name: appTsungMin146
     image: java:8
     ports:
       - "80:8080"
@@ -9,9 +9,9 @@ services:
     volumes:
       - ./restapp:/rest
     links:
-      - mongodb:dbtsungmin146
+      - mongodb:dbTsungMin146
     command: java -jar cmpe282tsungmin146.jar --spring.config.location="file:/application.properties"
 
   mongodb:
-    container_name: dbtsungmin146
+    container_name: dbTsungMin146
     image: mongo:3.4.9
