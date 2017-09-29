@@ -5,14 +5,15 @@
 ##Q1.
 ####a.List technologies, softwares (including version), and platform (include version) for the REST client, REST server, and NoSQL.
 * REST Client: Rested 2.7 on Mac OSX Sierra
-* REST Server: Spring-boot 1.5.7, Spring 4.3.11, Java8 container  on vCenter server VM Ubuntu 16.04
-* NoSQL databas: MongoDB 3.4.9 container on vCenter server VM Ubuntu 16.04
+* REST Server: Spring-boot 1.5.7, Spring 4.3.11, Java8 container  on
+* NoSQL databas: MongoDB 3.4.9 container
 
 ####b.For host1 and host2, list their OS (and version), and IP address.
 
 * Host1: Ubuntu 16.04 130.65.159.116 (tsungmin\_ub1604\_146\_1)
-
 * Host2: Mac OSX Sierra 10.250.70.244 (school wifi)
+
+<div style="page-break-after: always;"></div>
 
 ####c.A sample entire HTTP URL (including actual IP address of host1), URI, and request body for POST to create a new employee based on the XML format or JSON format (depending on your implementation). Also indicate if there is any additional setup (e.g., HTTP header, etc.).
 
@@ -35,6 +36,7 @@ Request body:
    "lastName": "Doe"
 }
 ```
+<div style="page-break-after: always;"></div>
 
 ##Q2. Describe detailed steps to build webapp and db docker containers with screenshots. (You can pull docker images directly, utilize Dockerfile to build one, or build on your own, or combination of the above.)
 
@@ -50,6 +52,8 @@ docker image pull java:8
 
 ![DOCKER_PULL_REST]
 
+<div style="page-break-after: always;"></div>
+
 MongoDB server: mongo:3.4.9
 
 [DOCKER_PULL_DB]: img/DOCKER_PULL_DB.png
@@ -60,11 +64,12 @@ docker image pull mongo:3.4.9
 
 ![DOCKER_PULL_DB]
 
+<div style="page-break-after: always;"></div>
+
 ##Q3. Describe detailed steps to deploy webapp and db docker containers with screenshots.
 
-All the needed file put into cmperoot/Desktop/docker
-
 <pre>
+All the needed file put into cmperoot/Desktop/docker
 cmperoot/Desktop/docker
 ├── docker-compose.yml
 └── restapp
@@ -74,8 +79,6 @@ cmperoot/Desktop/docker
 
 ####Deploy MongoDB container 
 
-Command to deploy MongoDB
-
 [DOCKER_RUN_DB]: img/DOCKER_RUN_DB.png
 
 ```
@@ -83,15 +86,13 @@ docker run -d --name dbTsungMin146 mongo:3.4.9
 ```
 
 1. Assign MongoDB container name: ***dbTsungMin146*** 
-2. The default command run in MongoDB docker image is starting MongoDB service, so there is no need to change.
+2. The default command run in MongoDB image is starting MongoDB service, so there is no need to change.
 
 ![DOCKER_RUN_DB]
 
+<div style="page-break-after: always;"></div>
+
 #### Deploy REST Server container
-
-Command to deploy REST server
-
-[DOCKER_RUN_REST]: img/DOCKER_RUN_REST.png
 
 ```
 docker run -d --name appTsungMin146 --link dbTsungMin146 \
@@ -105,11 +106,10 @@ docker run -d --name appTsungMin146 --link dbTsungMin146 \
 
 1. Assign REST server container name: ***appTsungMin146***
 2. Provide MongoDB server information to REST server
-3. Mapping REST server web port to host
+3. Mapp REST server web port to host
 4. Mount volume to docker to make debugging and modify server config more easily
 5. Run rest app with external config
 
-![DOCKER_RUN_REST]
 
 REST server external config: application.properties
 
@@ -121,21 +121,23 @@ spring.data.mongodb.database=cmpe282tsungmin146
 spring.data.mongodb.uri=mongodb://dbTsungMin146:27017/cmpe282tsungmin146
 ```
 
-##Q4. While both containers are running on host1, include the screenshots of the followings on host1
+<img src="img/DOCKER_RUN_REST.png" width="80%" height="80%" >
 
-[DOCKER_VER_PS]: img/DOCKER_VER_PS.png
+<div style="page-break-after: always;"></div>
+
+##Q4. While both containers are running on host1, include the screenshots of the following on host1
 
 * Docker version: 17.03.2-ce
 * Docker ps: appTsungMin146 and dbTsungMin146 are running
 
-![DOCKER_VER_PS]
 
-[DOCKER_NET]: img/DOCKER_NET.png
+<img src="img/DOCKER_VER_PS.png" height="70%" width="70%" >
 
-* Docker network inspect: Both container connected to default bridge
+* Docker network inspect: both container connected to default bridge
 
-![DOCKER_NET]
+<img src="img/DOCKER_NET.png" height="70%" width="70%" >
 
+<div style="page-break-after: always;"></div>
 
 ##Q5. On host2, use REST client to issue the following requests and include screenshots of REST request and response (method, URL, HTTP headers) - success cases only:
 
@@ -144,35 +146,46 @@ spring.data.mongodb.uri=mongodb://dbTsungMin146:27017/cmpe282tsungmin146
 
 #### issue a “POST /.../rest/employee” request to create two employees with id 10 and 20
 
-![REST_POST_ID_10]
+<img src="img/REST_POST_ID_10.png" height="70%" width="70%" >
 
-![REST_POST_ID_20]#### issue a “GET /.../rest/employee“ request to retrieve all employees[REST_GET_ALL]: img/REST_GET_ALL.png
+<img src="img/REST_POST_ID_20.png" height="70%" width="70%" >
 
-![REST_GET_ALL]#### issue a “PUT /.../rest/employee/10“ request to update employee 10’s first name only
+<div style="page-break-after: always;"></div>
 
-[REST_PUT_ID_10]: img/REST_PUT_ID_10.png
+#### issue a “GET /.../rest/employee“ request to retrieve all employees
 
-![REST_PUT_ID_10]#### issue a “DELETE /.../rest/employee/20“ request to delete employee 20 o screenshots:requestURI,responseheader(status200)
+<img src="img/REST_GET_ALL.png" height="70%" width="70%" >
 
-[REST_DEL_ID_20]: img/REST_DEL_ID_20.png
+#### issue a “PUT /.../rest/employee/10“ request to update employee 10’s first name only
 
-![REST_DEL_ID_20]#### issue a “GET /.../rest/employee“ request to retrieve all employees
+<img src="img/REST_PUT_ID_10.png" height="70%" width="70%" >
+
+<div style="page-break-after: always;"></div>
+
+#### issue a “DELETE /.../rest/employee/20“ request to delete employee 20
+
+<img src="img/REST_DEL_ID_20.png" height="70%" width="70%" >
+
+#### issue a “GET /.../rest/employee“ request to retrieve all employees
 
 [REST_GET_ALL_UPDATE]: img/REST_GET_ALL_UPDATE.png
 
-![REST_GET_ALL_UPDATE]##Q6. In addition to the original homework, use docker compose to build and deploy containers in Q2 and Q3.
+<img src="img/REST_GET_ALL_UPDATE.png" height="70%" width="70%" >
+
+<div style="page-break-after: always;"></div>
+
+##Q6. In addition to the original homework, use docker compose to build and deploy containers in Q2 and Q3.
 
 docker-compose.yml version 3 need docker 1.13.0+.
-Using the following command to install latest docker-compse.
+Using the following command to install latest docker-compose.
 
 ```
 sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudoc chmod +x /usr/local/bin/docker-compose
 ```
+<img src="img/DOCKER_COMPOSE_UP.png" height="70%" width="70%" >
 
-[DOCKER_COMPOSE_UP]: img/DOCKER_COMPOSE_UP.png
-
-![DOCKER_COMPOSE_UP]
+<div style="page-break-after: always;"></div>
 
 docker-compose.yml:
 
@@ -207,3 +220,16 @@ networks:
   rest-nosql: 
 ```
 
+<div style="page-break-after: always;"></div>
+
+#### issue a “POST /.../rest/employee” request to create two employees with id 10 and 20
+
+<img src="img/REST_COMPOSE_POST_ID_10.png" height="70%" width="70%" >
+
+<img src="img/REST_COMPOSE_POST_ID_20.png" height="70%" width="70%" >
+
+<div style="page-break-after: always;"></div>
+
+#### issue a “GET /.../rest/employee“ request to retrieve all employees
+
+<img src="img/REST_COMPOSE_GET_ALL.png" height="70%" width="70%" >
