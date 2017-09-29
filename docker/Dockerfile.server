@@ -1,6 +1,0 @@
-FROM java:8
-
-WORKDIR /rest
-COPY cmpe282tsungmin146.jar rest/
-COPY application.properties rest/
-CMD ["java", "-jar --spring.config.location="file:/application.properties""] 
