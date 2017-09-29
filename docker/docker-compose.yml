@@ -7,7 +7,7 @@ services:
       - "80:8080"
     working_dir: /rest
     volumes:
-      - .:/rest
+      - ./restapp:/rest
     links:
       - mongodb:dbtsungmin146
     command: java -jar cmpe282tsungmin146.jar --spring.config.location="file:/application.properties"
