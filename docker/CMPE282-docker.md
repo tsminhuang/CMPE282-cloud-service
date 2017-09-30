@@ -5,13 +5,13 @@
 ##Q1.
 ####a.List technologies, softwares (including version), and platform (include version) for the REST client, REST server, and NoSQL.
 * REST Client: Rested 2.7 on Mac OSX Sierra
-* REST Server: Spring-boot 1.5.7, Spring 4.3.11, Java8 container  on
+* REST Server: Spring-boot 1.5.7, Spring 4.3.11, Java8 container
 * NoSQL databas: MongoDB 3.4.9 container
 
 ####b.For host1 and host2, list their OS (and version), and IP address.
 
-* Host1: Ubuntu 16.04 130.65.159.116 (tsungmin\_ub1604\_146\_1)
-* Host2: Mac OSX Sierra 10.250.70.244 (school wifi)
+* Host1: Ubuntu 16.04, 130.65.159.116 (tsungmin\_ub1604\_146\_1)
+* Host2: Mac OSX Sierra, 10.250.70.244 (school wifi)
 
 <div style="page-break-after: always;"></div>
 
@@ -107,9 +107,11 @@ docker run -d --name appTsungMin146 --link dbTsungMin146 \
 1. Assign REST server container name: ***appTsungMin146***
 2. Provide MongoDB server information to REST server
 3. Mapp REST server web port to host
-4. Mount volume to docker to make debugging and modify server config more easily
-5. Run rest app with external config
+4. Mount volume to docker to make debug and modify server config more easily
+5. Run REST server app jar with external config
 
+####Knowing Issue:
+1. spring.data.mongodb.uri is not case sensitive should avoid using upper case.
 
 REST server external config: application.properties
 
@@ -121,56 +123,56 @@ spring.data.mongodb.database=cmpe282tsungmin146
 spring.data.mongodb.uri=mongodb://dbTsungMin146:27017/cmpe282tsungmin146
 ```
 
-<img src="img/DOCKER_RUN_REST.png" width="80%" height="80%" >
+<img src="img/DOCKER_RUN_REST.png" width="70%" height="70%" >
 
 <div style="page-break-after: always;"></div>
 
 ##Q4. While both containers are running on host1, include the screenshots of the following on host1
 
-* Docker version: 17.03.2-ce
-* Docker ps: appTsungMin146 and dbTsungMin146 are running
+####Docker version
+<img src="img/DOCKER_VER.png" height="80%" width="80%" >
 
+####Docker ps
+<img src="img/DOCKER_PS.png" height="80%" width="80%" >
 
-<img src="img/DOCKER_VER_PS.png" height="70%" width="70%" >
+<div style="page-break-after: always;"></div>
 
-* Docker network inspect: both container connected to default bridge
+####Docker network inspect
+<img src="img/DOCKER_NET.png" height="80%" width="80%" >
 
-<img src="img/DOCKER_NET.png" height="70%" width="70%" >
+###ip addr
+<img src="img/IP_ADDR.png" height="80%" width="80%" >
 
 <div style="page-break-after: always;"></div>
 
 ##Q5. On host2, use REST client to issue the following requests and include screenshots of REST request and response (method, URL, HTTP headers) - success cases only:
 
-[REST_POST_ID_10]: img/REST_POST_ID_10.png
-[REST_POST_ID_20]: img/REST_POST_ID_20.png
-
 #### issue a “POST /.../rest/employee” request to create two employees with id 10 and 20
 
-<img src="img/REST_POST_ID_10.png" height="70%" width="70%" >
-
-<img src="img/REST_POST_ID_20.png" height="70%" width="70%" >
+<img src="img/REST_POST_ID_10.png" height="80%" width="80%" >
+<img src="img/REST_POST_ID_20.png" height="80%" width="80%" >
 
 <div style="page-break-after: always;"></div>
 
 #### issue a “GET /.../rest/employee“ request to retrieve all employees
 
-<img src="img/REST_GET_ALL.png" height="70%" width="70%" >
+<img src="img/REST_GET_ALL.png" height="80%" width="80%" >
 
 #### issue a “PUT /.../rest/employee/10“ request to update employee 10’s first name only
 
-<img src="img/REST_PUT_ID_10.png" height="70%" width="70%" >
+<img src="img/REST_PUT_ID_10.png" height="80%" width="80%" >
 
 <div style="page-break-after: always;"></div>
 
 #### issue a “DELETE /.../rest/employee/20“ request to delete employee 20
 
-<img src="img/REST_DEL_ID_20.png" height="70%" width="70%" >
+<img src="img/REST_DEL_ID_20.png" height="80%" width="80%" >
 
 #### issue a “GET /.../rest/employee“ request to retrieve all employees
 
 [REST_GET_ALL_UPDATE]: img/REST_GET_ALL_UPDATE.png
 
-<img src="img/REST_GET_ALL_UPDATE.png" height="70%" width="70%" >
+<img src="img/REST_GET_ALL_UPDATE.png" height="80%" width="80%" >
 
 <div style="page-break-after: always;"></div>
 
@@ -180,10 +182,13 @@ docker-compose.yml version 3 need docker 1.13.0+.
 Using the following command to install latest docker-compose.
 
 ```
-sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo curl -L \
+https://github.com/docker/compose/releases/download/1.16.1/\
+docker-compose-`uname -s`-`uname -m` \
+-o /usr/local/bin/docker-compose
 sudoc chmod +x /usr/local/bin/docker-compose
 ```
-<img src="img/DOCKER_COMPOSE_UP.png" height="70%" width="70%" >
+<img src="img/DOCKER_COMPOSE_UP.png" >
 
 <div style="page-break-after: always;"></div>
 
@@ -204,8 +209,10 @@ services:
       - mongodb
     networks: 
       - rest-nosql
-    command: java -jar cmpe282tsungmin146.jar --spring.config.location="file:/application.properties"
-
+    command: [ "java",
+               "-jar", "cmpe282tsungmin146.jar",
+               "--spring.config.location=\"file:/application.properties\"" ]
+               
   mongodb:
     container_name: dbTsungMin146
     image: mongo:3.4.9
@@ -224,12 +231,11 @@ networks:
 
 #### issue a “POST /.../rest/employee” request to create two employees with id 10 and 20
 
-<img src="img/REST_COMPOSE_POST_ID_10.png" height="70%" width="70%" >
-
-<img src="img/REST_COMPOSE_POST_ID_20.png" height="70%" width="70%" >
+<img src="img/REST_COMPOSE_POST_ID_10.png" height="80%" width="80%" >
+<img src="img/REST_COMPOSE_POST_ID_20.png" height="80%" width="80%" >
 
 <div style="page-break-after: always;"></div>
 
 #### issue a “GET /.../rest/employee“ request to retrieve all employees
 
-<img src="img/REST_COMPOSE_GET_ALL.png" height="70%" width="70%" >
+<img src="img/REST_COMPOSE_GET_ALL.png" height="80%" width="80%" >
