@@ -1,16 +1,13 @@
 # CMPE282 Cloud Service course project
 
-- [Content](#CMPE282_Cloud_Service_course_project)
-  - [RESTful NoSQL](#restful-nosql)
-  - [Docker](#docker)
-
-These proejct are course proejct for CMPE282 cloud service 2017 Fall.
-
 Prof: Kong Li
 Student: Tsung-Min Huang
 
-- RESTful NoSQL
-- Docker
+These proejct are course proejct for CMPE282 Cloud Service 2017 Fall.
+
+- [Content](#CMPE282_Cloud_Service_course_project)
+  - [RESTful NoSQL](#restful-nosql)
+  - [Docker](#docker)
 
 ## RESTful NoSQL
 
