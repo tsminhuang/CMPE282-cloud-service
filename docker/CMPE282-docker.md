@@ -16,7 +16,7 @@ Student: Tsung-Min Huang
         - [Deploy REST Server container](#deploy-rest-server-container)
         - [Knowing Issue](#knowing-issue)
     - [Part3](#part3)
-        - [Docker status](#docker-status)
+        - [Docker service](#docker-service)
             - [Docker version](#docker-version)
             - [Docker ps](#docker-ps)
             - [Docker network inspect](#docker-network-inspect)
@@ -28,8 +28,8 @@ Student: Tsung-Min Huang
             - [issue a “DELETE /.../rest/employee/20“](#issue-a-%E2%80%9Cdelete-restemployee20%E2%80%9C)
             - [issue a “GET /.../rest/employee“](#issue-a-%E2%80%9Cget-restemployee%E2%80%9C)
         - [Docker-compose](#docker-compose)
-            - [issue a “POST /.../rest/employee”](#issue-a-%E2%80%9Cpost-restemployee%E2%80%9D)
-            - [issue a “GET /.../rest/employee“](#issue-a-%E2%80%9Cget-restemployee%E2%80%9C)
+            - [issue POST request](#issue-post-request)
+            - [issue a GET request](#issue-a-get-request)
 
 ## Part1
 
@@ -152,9 +152,7 @@ spring.data.mongodb.uri=mongodb://dbTsungMin146:27017/cmpe282tsungmin146
 
 ## Part3
 
-### Docker status
-
-While both containers are running on host1, include the screenshots of the following on host1
+### Docker service
 
 #### Docker version
 
@@ -213,6 +211,7 @@ request to retrieve all employees
 ### Docker-compose
 
 docker-compose.yml version 3 need docker 1.13.0+.
+
 Using the following command to install latest docker-compose.
 
 ```bash
@@ -260,7 +259,7 @@ networks:
   rest-nosql:
 ```
 
-#### issue a “POST /.../rest/employee”
+#### issue POST request
 
 request to create two employees with id 10 and 20
 
@@ -268,7 +267,7 @@ request to create two employees with id 10 and 20
 
 <img src="img/REST_COMPOSE_POST_ID_20.png" height="80%" width="80%" >
 
-#### issue a “GET /.../rest/employee“
+#### issue a GET request
 
 request to retrieve all employees
 
