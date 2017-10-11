@@ -1,6 +1,6 @@
-# CMPE282 Cloud Service course project
+# CMPE282 Cloud Service
 
-Prof: Kong Li
+Instructor: Prof Kong Li
 Student: Tsung-Min Huang
 
 These proejct are course proejct for CMPE282 Cloud Service 2017 Fall.
