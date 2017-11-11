@@ -17,6 +17,7 @@ import org.apache.hadoop.util.ToolRunner;
 public class URICountSort_tsungmin146 extends Configured implements Tool {
 
     private static class URICountSortMapper extends Mapper<Text, Text, LongWritable, Text> {
+        private LongWritable value = new LongWritable();
 
         @Override
         public void map(Text uri, Text uri_freq, Context context)
@@ -24,7 +25,8 @@ public class URICountSort_tsungmin146 extends Configured implements Tool {
             // Swap <Key: URI, Value: COUNT> to <Key: COUNT, Value: URI>
             // Let sort and shuffle phase to handle to Key sort
             long freq = Long.parseLong(uri_freq.toString());
-            context.write(new LongWritable(freq), uri);
+            value.set(freq);
+            context.write(value, uri);
         }
     }
 
@@ -33,7 +35,7 @@ public class URICountSort_tsungmin146 extends Configured implements Tool {
         @Override
         public void reduce(LongWritable count, Iterable<Text> uris, Context context)
             throws IOException, InterruptedException {
-            // Swap <Key: COUNT, Value: URI> back to <Key: URI, Value: COUNT>
+            // Swap <Key: COUNT, Value: URI> to <Key: URI, Value: COUNT>
             for (Text uri : uris) {
                 context.write(uri, count);
             }
@@ -47,9 +49,8 @@ public class URICountSort_tsungmin146 extends Configured implements Tool {
             System.exit(-1);
         }
 
-        Job job = new Job((getConf()));
+        Job job = Job.getInstance(getConf(), "URICountSort");
         job.setJarByClass(URICountSort_tsungmin146.class);
-        job.setJobName("URICountSort");
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
@@ -60,11 +61,11 @@ public class URICountSort_tsungmin146 extends Configured implements Tool {
         job.setInputFormatClass(KeyValueTextInputFormat.class);
         job.setSortComparatorClass(LongWritable.Comparator.class);
 
-        // force map key and value type ?
+        // force map key and value type
         job.setMapOutputKeyClass(LongWritable.class);
         job.setMapOutputValueClass(Text.class);
 
-        // force reduce key and value type ?
+        // force reduce key and value type
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
 

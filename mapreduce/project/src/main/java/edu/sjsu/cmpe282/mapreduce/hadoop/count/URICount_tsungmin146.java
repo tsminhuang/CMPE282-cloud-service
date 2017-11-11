@@ -19,9 +19,10 @@ public class URICount_tsungmin146 extends Configured implements Tool {
 
     private static class URICountMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
 
-        static final String URI_RECORD_PATTERN_STR = "(.*) - - .*";
-        static final Pattern URI_RECORD_PATTERN = Pattern.compile(URI_RECORD_PATTERN_STR);
-        static final LongWritable ONE = new LongWritable(1);
+        private static final String URI_RECORD_PATTERN_STR = "(.*) - - .*";
+        private static final Pattern URI_RECORD_PATTERN = Pattern.compile(URI_RECORD_PATTERN_STR);
+        private static final LongWritable ONE = new LongWritable(1);
+        private Text uri = new Text();
 
         @Override
         public void map(LongWritable key, Text uri_record, Context context)
@@ -31,7 +32,8 @@ public class URICount_tsungmin146 extends Configured implements Tool {
             String record = uri_record.toString();
             Matcher uri_matcher = URI_RECORD_PATTERN.matcher(record);
             if (uri_matcher.find()) {
-                context.write(new Text(uri_matcher.group(1)), ONE);
+                uri.set(uri_matcher.group(1));
+                context.write(uri, ONE);
             } else {
                 throw new IOException("URI regular expression extract failed on record: " + record);
             }
@@ -39,6 +41,7 @@ public class URICount_tsungmin146 extends Configured implements Tool {
     }
 
     private static class URICountReducer extends Reducer<Text, LongWritable, Text, LongWritable> {
+        private LongWritable count = new LongWritable();
 
         public void reduce(Text uri, Iterable<LongWritable> uri_count, Context context)
             throws IOException, InterruptedException {
@@ -47,7 +50,8 @@ public class URICount_tsungmin146 extends Configured implements Tool {
             for (LongWritable val : uri_count) {
                 uri_count_sum += val.get();
             }
-            context.write(uri, new LongWritable(uri_count_sum));
+            count.set(uri_count_sum);
+            context.write(uri, count);
         }
     }
 
@@ -57,9 +61,8 @@ public class URICount_tsungmin146 extends Configured implements Tool {
             System.exit(-1);
         }
 
-        Job job = new Job(getConf());
+        Job job = Job.getInstance(getConf(), "URICount");
         job.setJarByClass(URICount_tsungmin146.class);
-        job.setJobName("URICount");
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

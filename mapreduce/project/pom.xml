@@ -32,6 +32,7 @@
   </repositories>
 
   <dependencies>
+    <!-- cloudera hadoop -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-common</artifactId>
@@ -39,14 +40,22 @@
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-core</artifactId>
-      <version>2.6.0-mr1-cdh5.10.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-hdfs</artifactId>
       <version>2.6.0-cdh5.10.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>2.6.0-cdh5.10.0</version>
+    </dependency>
+
+    <!--
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-assembly_2.10</artifactId>
+      <version>1.6.0-cdh5.10.0</version>
+    </dependency>
+    -->
   </dependencies>
 
 </project>
