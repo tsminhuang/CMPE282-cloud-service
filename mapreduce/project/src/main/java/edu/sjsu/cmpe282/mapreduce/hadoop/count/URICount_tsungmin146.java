@@ -19,7 +19,7 @@ public class URICount_tsungmin146 extends Configured implements Tool {
 
     private static class URICountMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
 
-        private static final String URI_RECORD_PATTERN_STR = "(.*) - - .*";
+        private static final String URI_RECORD_PATTERN_STR = "\"(.+)\"";
         private static final Pattern URI_RECORD_PATTERN = Pattern.compile(URI_RECORD_PATTERN_STR);
         private static final LongWritable ONE = new LongWritable(1);
         private Text uri = new Text();
@@ -32,7 +32,8 @@ public class URICount_tsungmin146 extends Configured implements Tool {
             String record = uri_record.toString();
             Matcher uri_matcher = URI_RECORD_PATTERN.matcher(record);
             if (uri_matcher.find()) {
-                uri.set(uri_matcher.group(1));
+                String[] split = uri_matcher.group(1).split(" ");
+                uri.set(split[1]);
                 context.write(uri, ONE);
             } else {
                 throw new IOException("URI regular expression extract failed on record: " + record);
