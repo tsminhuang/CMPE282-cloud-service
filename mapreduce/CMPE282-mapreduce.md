@@ -41,6 +41,8 @@ Job parameters
 - number of map tasks: 1
 - number of reduce tasks: 1
 
+<div style="page-break-after: always;"></div>
+
 ## Explain by example
 
 1. The first job count the frequency of each URI
@@ -67,7 +69,9 @@ uri5 3
   3 uri5              3 uri5                uri5 3
 ```
 
-## Job screenshot
+<div style="page-break-after: always;"></div>
+
+## Job Result
 
 ### URI Count job
 
@@ -76,6 +80,8 @@ hdfs dfs -ls count_input
 ```
 
 ![uri_count_input](img/uri_count_input.png)
+
+<div style="page-break-after: always;"></div>
 
 ```bash
 URI_MAPREDUCE_JOB=edu.sjsu.cmpe282.mapreduce.hadoop.count.URICount_tsungmin146
@@ -87,6 +93,8 @@ hadoop $URI_MAPREDUCE_JOB count_input count_output
 
 ![uri_count_run](img/uri_count_run.png)
 
+<div style="page-break-after: always;"></div>
+
 ```bash
 hdfs dfs -ls count_output
 hdfs dfs -cat count_output/part-r-00000 | head
@@ -95,6 +103,8 @@ hdfs dfs -cat count_output/part-r-00000 | tail
 
 ![uri_count_output](img/uri_count_output.png)
 
+<div style="page-break-after: always;"></div>
+
 ### URI Sort job
 
 ```bash
@@ -102,6 +112,8 @@ hdfs dfs -ls count_output
 ```
 
 ![uri_sort_input](img/uri_sort_input.png)
+
+<div style="page-break-after: always;"></div>
 
 ```bash
 URI_MAPREDUCE_JOB=edu.sjsu.cmpe282.mapreduce.hadoop.sort.URICountSort_tsungmin146
@@ -113,6 +125,8 @@ hadoop $URI_MAPREDUCE_JOB -Dmapreduce.job.maps=3 count_output sort_output
 
 ![uri_sort_run](img/uri_sort_run.png)
 
+<div style="page-break-after: always;"></div>
+
 ```bash
 hdfs dfs -ls sort_output
 hdfs dfs -cat sort_output/part-r-00000  | head
@@ -120,6 +134,8 @@ hdfs dfs -cat sort_output/part-r-00000  | tail
 ```
 
 ![uri_sort_output](img/uri_sort_output.png)
+
+<div style="page-break-after: always;"></div>
 
 ### 2nd Sort Job Issue
 
