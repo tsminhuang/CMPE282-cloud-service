@@ -1,14 +1,14 @@
-# CMPE282 Cloud Service
+# CMPE282 Fall017 Cloud Service Lab
 
 Instructor: Prof Kong Li
 
 Student: Tsung-Min Huang
-
-These proejct are course proejct for CMPE282 Cloud Service 2017 Fall.
+Fall2017 CMPE282 Cloud Service 2017 Fall.
 
 - [Content](#CMPE282_Cloud_Service_course_project)
   - [RESTful NoSQL](#restful-nosql)
   - [Docker](#docker)
+  - [MapReduce] (#mapreduce)
 
 ## RESTful NoSQL
 
@@ -16,8 +16,13 @@ Following function matrix to implement rest-server to handle request and store d
 
 **Technologies**: Spring-boot, Spring, MongoDB
 
-## Docker
+## Docker Deployment
 
-Deployed RESTful NoSQL project two to different container. One as rest-server and the other as MongoDB server.
+Deployed RESTful NoSQL service using Docker.
+Rest Server and MongoDB are separate services.
 
 **Technologies**: Docker
+
+## MapReduce
+
+Using MapReduce to perform statistically result for URI record.
