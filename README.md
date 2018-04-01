@@ -1,10 +1,5 @@
 # CMPE282 Fall017 Cloud Service Lab
 
-Instructor: Prof Kong Li
-
-Student: Tsung-Min Huang
-Fall2017 CMPE282 Cloud Service 2017 Fall.
-
 - [Content](#CMPE282_Cloud_Service_course_project)
   - [RESTful NoSQL](#restful-nosql)
   - [Docker](#docker)
@@ -26,3 +21,5 @@ Rest Server and MongoDB are separate services.
 ## MapReduce
 
 Using MapReduce to perform statistically result for URI record.
+
+**Technologies**: MapReudce
