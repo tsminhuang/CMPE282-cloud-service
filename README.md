@@ -8,7 +8,7 @@ Fall2017 CMPE282 Cloud Service 2017 Fall.
 - [Content](#CMPE282_Cloud_Service_course_project)
   - [RESTful NoSQL](#restful-nosql)
   - [Docker](#docker)
-  - [MapReduce] (#mapreduce)
+  - [MapReduce](#mapreduce)
 
 ## RESTful NoSQL
 
